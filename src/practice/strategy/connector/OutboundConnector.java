@@ -1,8 +1,11 @@
 package practice.strategy.connector;
 
+import practice.strategy.connector.integration.IntegrationMode;
+import practice.strategy.connector.serialization.SerializationMode;
+
 public abstract class OutboundConnector<T, I> {
-    private IntegrationMode integrationMode;
-    private SerializationMode<T, I> serializationMode;
+    IntegrationMode integrationMode;
+    SerializationMode<T, I> serializationMode;
 
     public void setIntegrationMode(IntegrationMode integrationMode) {
         this.integrationMode = integrationMode;
@@ -12,8 +15,8 @@ public abstract class OutboundConnector<T, I> {
         this.serializationMode = serializationMode;
     }
 
-    public T routeInput(String connectionName, I input) {
-        Connection conn = integrationMode.connect(connectionName);
+    public T routeInput(I input) {
+        Connection conn = integrationMode.connect();
         return serializationMode.serialize(conn, input);
 
     }
